@@ -7,7 +7,49 @@
     </head>
     <body>
         <script>
-        
+            // Randomly returns rock, paper, or scissors.
+            function computerPlay() {
+                let randomNumber = Math.floor(Math.random() * 3); // Generates a random number between 0 and 2
+
+                switch(randomNumber) {
+                    case 0:
+                        return "rock"; break;
+                    case 1:
+                        return "paper"; break;
+                    case 2:
+                        return "scissors"; break;
+                    default:
+                        return null; break;
+                }
+            }
+
+            // Plays a round of rock, paper, scissors.
+            function playRound(playerSelection, computerSelection) {
+
+                if(checkWinConditions(playerSelection, computerSelection)) {
+                    return "win";
+                } else if(playerSelection == computerSelection) { 
+                    return "draw";
+                }
+
+                return "loss";
+            }
+
+            // Helper function which checks for win conditions
+            function checkWinConditions(playerSelection, computerSelection) {
+                if(playerSelection == "rock" && computerSelection == "scissors" ||
+                   playerSelection == "paper" && computerSelection == "rock" ||
+                   playerSelection == "scissors" && computerSelection == "paper") 
+                    return true;
+
+                return false;
+            }
+
+            const playerSelection = 'rock';
+            const computerSelection = computerPlay();
+            console.log("You picked: " + playerSelection);
+            console.log("Computer picked: " + computerSelection);
+            console.log(playRound(playerSelection, computerSelection));
         </script>
     </body>
 </html>
