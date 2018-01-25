@@ -11,6 +11,7 @@
             function computerPlay() {
                 let randomNumber = Math.floor(Math.random() * 3); // Generates a random number between 0 and 2
 
+                // TODO: could return an integer instead of string and then write a helper function converting input indexes into strings
                 switch(randomNumber) {
                     case 0:
                         return "rock"; break;
@@ -32,7 +33,46 @@
                     return "draw";
                 }
 
-                return "loss";
+                return "lose";
+            }
+
+            // Plays the game until it reaches the number passed as an argument.
+            function game(numRounds) {
+                let playerScore = 0;
+                let computerScore = 0;
+
+                while(!checkWinner(playerScore, computerScore, numRounds)) {
+                    const playerSelection = prompt("Please enter 'rock', 'paper', or 'scissors' without any quotation marks: ").toLowerCase();
+                    const computerSelection = computerPlay();
+                    const result = playRound(playerSelection, computerSelection);
+
+                    console.log("You chose: " + playerSelection);
+                    console.log("Computer chose: " + computerSelection);
+
+                    if(result == "win") {
+                        playerScore++;
+                    } else if(result == "lose") {
+                        computerScore++;
+                    }
+
+                    console.log("You " + result + "!");
+                    console.log("Player's score: " + playerScore);
+                    console.log("Computer's score: " + computerScore);
+                }
+            }
+
+            // Helper function that determines if a winner has been found.
+            function checkWinner(playerScore, computerScore, maxScore ) {
+                if(playerScore >= maxScore) {
+                    console.log("Player wins!");
+                    return true;
+                }
+                else if(computerScore >= maxScore) {
+                    console.log("Computer wins!");
+                    return true;
+                }
+
+                return false;
             }
 
             // Helper function which checks for win conditions
@@ -45,11 +85,7 @@
                 return false;
             }
 
-            const playerSelection = 'rock';
-            const computerSelection = computerPlay();
-            console.log("You picked: " + playerSelection);
-            console.log("Computer picked: " + computerSelection);
-            console.log(playRound(playerSelection, computerSelection));
+            game(5); // plays game 5 times
         </script>
     </body>
 </html>
