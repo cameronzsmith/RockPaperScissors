@@ -21,31 +21,25 @@ scissors.addEventListener("click", function() {
     playRound(2);
 });
 
-// Click event function that takes in a numeric index (0 = Rock, 1 = Paper, 2 = Scissors)
+/* Game Functions */
+
+// This function is called when the player clicks on one of the game buttons.
 function playRound(playerChoice) {
     if(!gameOver()) {
-        let convertedInput = convertIndexToString(playerChoice);
-        let computerInput = computerPlay();
+        let convertedInput = convertIndexToString(playerChoice); // Converts the input from 0 -> rock, 1 -> paper, 2 -> scissors.
+        let computerInput = computerPlay(); // Computer randomly picks rock, paper, or scissors
     
-        checkPointScored(convertedInput, computerInput);
-    
-        document.getElementById("computerChoiceHidden").style = "display: inline-block;";
-        document.getElementById("playerChoice").style.textTransform = "uppercase";
-        document.getElementById("playerChoice").innerHTML = convertedInput;
-        document.getElementById("computerChoice").style.textTransform = "uppercase";
-        document.getElementById("computerChoice").innerHTML = computerInput;
-        document.getElementById("playerScore").innerHTML = playerScore;
-        document.getElementById("computerScore").innerHTML = computerScore;
+        checkResults(convertedInput, computerInput);
+        displayElements(convertedInput, computerInput); // This will display our DOM elements  
     }
 }
 
-
-// Checks if the player scored a point.
-function checkPointScored(playerChoice, computerChoice) {
+// This function will check who scored a point, and also alerts the user if they've won the game.
+function checkResults(playerChoice, computerChoice) {
     if(playerChoice == computerChoice) {
-        ++drawCounter;
-        document.getElementById("drawTextHidden").style.display = "block";
-        document.getElementById("drawCounter").innerHTML = drawCounter + "<br><br>";
+        ++drawCounter; // Increment our draw counter
+        document.getElementById("drawTextHidden").style.display = "block"; // Stop hiding our draw counter
+        document.getElementById("drawCounter").innerHTML = drawCounter + "<br><br>"; // Update the counter.
     } else if(determineWinner(playerChoice, computerChoice)) {        
         ++playerScore;
 
@@ -61,7 +55,9 @@ function checkPointScored(playerChoice, computerChoice) {
     }
 }
 
-// Returns true if the player is a winner, false if the computer is the winner.
+/* Helper Functions */
+
+// Returns true if the player is a winner, false if the computer is the winner or a draw has occurred.
 function determineWinner(playerChoice, computerChoice) {
     if(playerChoice == "rock" && computerChoice == "scissors" ||
             playerChoice == "paper" && computerChoice == "rock" ||
@@ -72,13 +68,26 @@ function determineWinner(playerChoice, computerChoice) {
     return false;
 }
 
+
 // Returns true if either the player or computer have won the game.
 function gameOver() {
     return (playerScore == 5 || computerScore == 5) ? true : false;
 }
 
 
-/* Helper Functions */
+// This function will display, update, and stylize our DOM elements.
+function displayElements(playerChoice, computerChoice) {
+    document.getElementById("computerChoiceHidden").style = "display: inline-block;";
+
+    document.getElementById("playerChoice").style.textTransform = "uppercase";
+    document.getElementById("playerChoice").innerHTML = playerChoice;
+
+    document.getElementById("computerChoice").style.textTransform = "uppercase";
+    document.getElementById("computerChoice").innerHTML = computerChoice;
+
+    document.getElementById("playerScore").innerHTML = playerScore;
+    document.getElementById("computerScore").innerHTML = computerScore;
+}
 
 // Computer makes a random choice.
 function computerPlay() {
