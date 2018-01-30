@@ -14,78 +14,19 @@
             <h2>Choose wisely...</h2>
 
             <ul>
-                <li><button id="rock" type="button" onclick="playRound(0)">Rock</button></li>
-                <li><button id="paper" type="button" onclick="playRound(1)">Paper</button></li>
-                <li><button id="scissors" type="button" onclick="playRound(2)">Scissors</button></li>                
+                <li><button id="rock" type="button">Rock</button></li>
+                <li><button id="paper" type="button">Paper</button></li>
+                <li><button id="scissors" type="button">Scissors</button></li>                
             </ul>
+            <div id="vsText">
+                    <h3 id="computerChoiceHidden"><span id="playerChoice"></span> vs <span id="computerChoice"></span></h3><br>
+                    <h3 id="drawTextHidden">Draw counter: <span id="drawCounter"></span></h3>
+            </div>
 
-            <h3 id="computerChoiceHidden">The computer chooses: </h3> <span id="computerChoice"></span><br>
-            <h3>Your score: <span id="playerScore">0</span></h3> <br>
+            <h3>Your score: <span id="playerScore">0</span></h3>
             <h3>Computer's score: <span id="computerScore">0</span></h3>
         </div>
-        <script>
-            let playerScore = 0;
-            let computerScore = 0;
 
-            function game() {
-
-            }
-
-            function playRound(playerChoice) {
-                let convertedInput = convertIndexToString(playerChoice);
-                let computerInput = computerPlay();
-
-                if(playerScore < 5 && computerScore < 5) {
-                    if(convertedInput == computerInput) {
-                        console.log("DRAW");
-                    } else if(determineWinner(convertedInput, computerInput)) {
-                        playerScore++;
-                    } else {
-                        computerScore++;
-                    }
-                } else {
-                    alert("Winner!");
-                }
-
-                document.getElementById("playerScore").innerHTML = playerScore;
-                document.getElementById("computerScore").innerHTML = computerScore;
-            }
-
-            // Computer makes a random choice.
-            function computerPlay() {
-                return convertIndexToString(Math.floor(Math.random() * 3));
-            }
-
-            // Returns true if the player is a winner
-            function determineWinner(playerChoice, computerChoice) {
-                if(playerChoice == "rock" && computerChoice == "scissors" ||
-                        playerChoice == "paper" && computerChoice == "rock" ||
-                        playerChoice == "scissors" && computerChoice == "paper") {
-                            return true;
-                }
-
-                return false;
-            }
-
-            // Converts numbers into rock, paper, or scissors.
-            function convertIndexToString(index) {
-                switch(index) {
-                    case 0: return "rock"; break;
-                    case 1: return "paper"; break;
-                    case 2: return "scissors"; break;
-                    default: return "unknown"; break;
-                }
-            }
-
-            // Converts rock, paper, or scissors into numbers.
-            function convertStringToIndex(string) {
-                switch(string) {
-                    case "rock": return 0; break;
-                    case "paper": return 1; break;
-                    case "scissors": return 2; break;
-                    default: return -1; break;
-                }
-            }
-        </script>
+        <script src="game.js"></script>
     </body>
 </html>

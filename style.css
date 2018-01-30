@@ -58,4 +58,15 @@ ul li button:hover {
 /* Game */
 #computerChoiceHidden {
     display: none;
+    text-align: center;
+}
+
+#drawTextHidden {
+    display: none;
+    font-size: 0.7em;
+    text-align: center;
+}
+
+#vsText {
+    text-align: center;
 }
