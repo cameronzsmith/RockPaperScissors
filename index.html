@@ -2,90 +2,90 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Rock, Paper, Scissors!</title>
+
+        <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
+        <div class="container">
+            <h1>Rock, Paper, Scissors!</h1>
+            <h2>Choose wisely...</h2>
+
+            <ul>
+                <li><button id="rock" type="button" onclick="playRound(0)">Rock</button></li>
+                <li><button id="paper" type="button" onclick="playRound(1)">Paper</button></li>
+                <li><button id="scissors" type="button" onclick="playRound(2)">Scissors</button></li>                
+            </ul>
+
+            <h3 id="computerChoiceHidden">The computer chooses: </h3> <span id="computerChoice"></span><br>
+            <h3>Your score: <span id="playerScore">0</span></h3> <br>
+            <h3>Computer's score: <span id="computerScore">0</span></h3>
+        </div>
         <script>
-            // Randomly returns rock, paper, or scissors.
-            function computerPlay() {
-                let randomNumber = Math.floor(Math.random() * 3); // Generates a random number between 0 and 2
+            let playerScore = 0;
+            let computerScore = 0;
 
-                // TODO: could return an integer instead of string and then write a helper function converting input indexes into strings
-                switch(randomNumber) {
-                    case 0:
-                        return "rock"; break;
-                    case 1:
-                        return "paper"; break;
-                    case 2:
-                        return "scissors"; break;
-                    default:
-                        return null; break;
-                }
+            function game() {
+
             }
 
-            // Plays a round of rock, paper, scissors.
-            function playRound(playerSelection, computerSelection) {
+            function playRound(playerChoice) {
+                let convertedInput = convertIndexToString(playerChoice);
+                let computerInput = computerPlay();
 
-                if(checkWinConditions(playerSelection, computerSelection)) {
-                    return "win";
-                } else if(playerSelection == computerSelection) { 
-                    return "draw";
-                }
-
-                return "lose";
-            }
-
-            // Plays the game until it reaches the number passed as an argument.
-            function game(numRounds) {
-                let playerScore = 0;
-                let computerScore = 0;
-
-                while(!checkWinner(playerScore, computerScore, numRounds)) {
-                    const playerSelection = prompt("Please enter 'rock', 'paper', or 'scissors' without any quotation marks: ").toLowerCase();
-                    const computerSelection = computerPlay();
-                    const result = playRound(playerSelection, computerSelection);
-
-                    console.log("You chose: " + playerSelection);
-                    console.log("Computer chose: " + computerSelection);
-
-                    if(result == "win") {
+                if(playerScore < 5 && computerScore < 5) {
+                    if(convertedInput == computerInput) {
+                        console.log("DRAW");
+                    } else if(determineWinner(convertedInput, computerInput)) {
                         playerScore++;
-                    } else if(result == "lose") {
+                    } else {
                         computerScore++;
                     }
-
-                    console.log("You " + result + "!");
-                    console.log("Player's score: " + playerScore);
-                    console.log("Computer's score: " + computerScore);
+                } else {
+                    alert("Winner!");
                 }
+
+                document.getElementById("playerScore").innerHTML = playerScore;
+                document.getElementById("computerScore").innerHTML = computerScore;
             }
 
-            // Helper function that determines if a winner has been found.
-            function checkWinner(playerScore, computerScore, maxScore ) {
-                if(playerScore >= maxScore) {
-                    console.log("Player wins!");
-                    return true;
-                }
-                else if(computerScore >= maxScore) {
-                    console.log("Computer wins!");
-                    return true;
+            // Computer makes a random choice.
+            function computerPlay() {
+                return convertIndexToString(Math.floor(Math.random() * 3));
+            }
+
+            // Returns true if the player is a winner
+            function determineWinner(playerChoice, computerChoice) {
+                if(playerChoice == "rock" && computerChoice == "scissors" ||
+                        playerChoice == "paper" && computerChoice == "rock" ||
+                        playerChoice == "scissors" && computerChoice == "paper") {
+                            return true;
                 }
 
                 return false;
             }
 
-            // Helper function which checks for win conditions
-            function checkWinConditions(playerSelection, computerSelection) {
-                if(playerSelection == "rock" && computerSelection == "scissors" ||
-                   playerSelection == "paper" && computerSelection == "rock" ||
-                   playerSelection == "scissors" && computerSelection == "paper") 
-                    return true;
-
-                return false;
+            // Converts numbers into rock, paper, or scissors.
+            function convertIndexToString(index) {
+                switch(index) {
+                    case 0: return "rock"; break;
+                    case 1: return "paper"; break;
+                    case 2: return "scissors"; break;
+                    default: return "unknown"; break;
+                }
             }
 
-            game(5); // plays game 5 times
+            // Converts rock, paper, or scissors into numbers.
+            function convertStringToIndex(string) {
+                switch(string) {
+                    case "rock": return 0; break;
+                    case "paper": return 1; break;
+                    case "scissors": return 2; break;
+                    default: return -1; break;
+                }
+            }
         </script>
     </body>
 </html>
